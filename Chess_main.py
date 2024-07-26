@@ -1,5 +1,5 @@
 import pygame as p
-import Chess_engine
+import ChessEngine
 import sys
 
 WIDTH = HEIGHT = 512
@@ -31,7 +31,7 @@ def main():
     screen = p.display.set_mode((WIDTH, HEIGHT))
     clock = p.time.Clock()
     screen.fill(p.Color("white"))
-    game_state = Chess_engine.GameState()
+    game_state = ChessEngine.GameState()
     loadImages()  # do this only once before while loop
 
     running = True
@@ -40,6 +40,12 @@ def main():
         for e in p.event.get():
             if e.type == p.QUIT:
                 running = False
+            elif e.type == p.MOUSEBUTTONDOWN:
+                location = p.mouse.get_pos() # coordinates of the mouse
+                col = location[0]//SQUARE_SIZE
+                row = location[1]//SQUARE_SIZE
+
+
 
         drawGameState(screen, game_state)
         clock.tick(MAX_FPS)
