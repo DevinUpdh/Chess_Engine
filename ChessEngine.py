@@ -1,11 +1,5 @@
 class GameState():
     def __init__(self):
-        '''
-        Board is an 8x8 2d list, each element in list has 2 characters.
-        The first character represtents the color of the piece: 'b' or 'w'.
-        The second character represtents the type of the piece: 'R', 'N', 'B', 'Q', 'K' or 'p'.
-        "--" represents an empty space with no piece.
-        '''
         self.board = [
             ["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
             ["bp", "bp", "bp", "bp", "bp", "bp", "bp", "bp"],
@@ -136,33 +130,6 @@ class GameState():
             self.stale_mate = False
 
         return moves
-
-        # naive algorith
-        '''
-        # 1) generate all possible moves
-        moves = self.getAllPossibleMoves()
-        # 2) for each move, make the move
-        for i in range(len(moves)-1, -1, -1): # when removing from a list go backwards through that list
-            self.makeMove(moves[i])
-            # 3) generate all oponent's moves
-            # 4) for each of your oponent's moves, see if they attack your king
-            self.white_to_move = not self.white_to_move
-            if self.inCheck():
-                # 5) if they do attack your king, not a valid move
-                moves.remove(moves[i])
-            self.white_to_move = not self.white_to_move
-            self.undoMove()
-        if len(moves) == 0:
-            if self.inCheck():
-                self.check_mate = True
-            else:
-                self.stale_mate = True
-        else:
-            self.check_mate = False
-            self.stale_mate = False
-        return moves
-        '''
-
     def inCheck(self):
         '''
         Determine if a current player is in check
@@ -428,11 +395,7 @@ class GameState():
 
 
 class Move():
-    '''
-    in chess fields on the board are described by two symbols, one of them being number between 1-8 (which is corespodning to rows)
-    and the second one being a letter between a-f (coresponding to columns), in order to use this notation we need to map our [row][col] coordinates
-    to match the ones used in the original chess game
-    '''
+
     ranks_to_rows = {"1": 7, "2": 6, "3": 5, "4": 4,
                      "5": 3, "6": 2, "7": 1, "8": 0}
     rows_to_ranks = {v: k for k, v in ranks_to_rows.items()}
