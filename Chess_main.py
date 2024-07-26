@@ -1,3 +1,8 @@
+"""
+Main driver file.
+Handling user input.
+Displaying current GameStatus object.
+"""
 import pygame as p
 import ChessEngine, ChessAI
 import sys
@@ -13,31 +18,39 @@ IMAGES = {}
 
 
 def loadImages():
+    """
+    Initialize a global directory of images.
+    This will be called exactly once in the main.
+    """
     pieces = ['wp', 'wR', 'wN', 'wB', 'wK', 'wQ', 'bp', 'bR', 'bN', 'bB', 'bK', 'bQ']
     for piece in pieces:
         IMAGES[piece] = p.transform.scale(p.image.load("images/" + piece + ".png"), (SQUARE_SIZE, SQUARE_SIZE))
 
 
 def main():
+    """
+    The main driver for our code.
+    This will handle user input and updating the graphics.
+    """
     p.init()
     screen = p.display.set_mode((BOARD_WIDTH + MOVE_LOG_PANEL_WIDTH, BOARD_HEIGHT))
     clock = p.time.Clock()
     screen.fill(p.Color("white"))
     game_state = ChessEngine.GameState()
     valid_moves = game_state.getValidMoves()
-    move_made = False
-    animate = False
-    loadImages()
+    move_made = False  # flag variable for when a move is made
+    animate = False  # flag variable for when we should animate a move
+    loadImages()  # do this only once before while loop
     running = True
-    square_selected = ()
-    player_clicks = []
+    square_selected = ()  # no square is selected initially, this will keep track of the last click of the user (tuple(row,col))
+    player_clicks = []  # this will keep track of player clicks (two tuples)
     game_over = False
     ai_thinking = False
     move_undone = False
     move_finder_process = None
     move_log_font = p.font.SysFont("Arial", 14, False, False)
     player_one = True  # if a human is playing white, then this will be True, else False
-    player_two = False  # if a human is playing white, then this will be True, else False
+    player_two = False  # if a hyman is playing white, then this will be True, else False
 
     while running:
         human_turn = (game_state.white_to_move and player_one) or (not game_state.white_to_move and player_two)
@@ -148,6 +161,10 @@ def drawGameState(screen, game_state, valid_moves, square_selected):
 
 
 def drawBoard(screen):
+    """
+    Draw the squares on the board.
+    The top left square is always light.
+    """
     global colors
     colors = [p.Color("white"), p.Color("gray")]
     for row in range(DIMENSION):
